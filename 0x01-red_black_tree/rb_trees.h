@@ -6,7 +6,7 @@
 #include <limits.h>
 #include <stddef.h>
 
-#define NULL ((void *)0)
+
 #define MAXIMUM(X, Y) ((X >= Y) ? X : Y)
 
 /**
@@ -14,12 +14,13 @@
  *
  * @RED: 0 -> Red node
  * @BLACK: 1 -> Black node
+ * @DOUBLE_BLACK: -> DOUBLE_BACK
  */
 typedef enum rb_color_e
 {
-    RED = 0,
-    BLACK,
-    DOUBLE_BLACK
+	RED = 0,
+	BLACK,
+	DOUBLE_BLACK
 } rb_color_t;
 
 /**
@@ -33,11 +34,11 @@ typedef enum rb_color_e
  */
 typedef struct rb_tree_s
 {
-    int n;
-    rb_color_t color;
-    struct rb_tree_s *parent;
-    struct rb_tree_s *left;
-    struct rb_tree_s *right;
+	int n;
+	rb_color_t color;
+	struct rb_tree_s *parent;
+	struct rb_tree_s *left;
+	struct rb_tree_s *right;
 } rb_tree_t;
 
 rb_tree_t *rb_tree_node(rb_tree_t *parent, int value, rb_color_t color);
@@ -69,6 +70,4 @@ rb_tree_t *rb_delete_fixup(rb_tree_t *root, rb_tree_t *x);
 rb_tree_t *rb_delete_fix_left(rb_tree_t **root, rb_tree_t *x);
 rb_tree_t *rb_delete_fix_right(rb_tree_t **root, rb_tree_t *x);
 rb_tree_t *tree_min(rb_tree_t *root);
-
-
 #endif /*__RB_TREES_H__ */
