@@ -1,5 +1,3 @@
-#include <stdlib.h>
-#include <stdio.h>
 #include "rb_trees.h"
 /**
  * rb_tree_node - function that creates a Red-Black Tree node
