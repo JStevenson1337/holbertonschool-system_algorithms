@@ -53,7 +53,8 @@ void rb_insert_fixup(rb_tree_t **tree, rb_tree_t *new_node)
 {
 	while (new_node->parent && new_node->parent->color == RED)
 	{
-		if (new_node->parent->parent && new_node->parent == new_node->parent->parent->left)
+		if (new_node->parent->parent && new_node->parent
+			== new_node->parent->parent->left)
 			new_node = rb_insert_fixup_RIGHT(tree, new_node);
 		else
 			new_node = rb_insert_fixup_LEFT(tree, new_node);
