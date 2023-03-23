@@ -61,6 +61,7 @@ void rb_rotate_right(rb_tree_t **tree, rb_tree_t *y);
 
 /* 3-array_to_rb_tree.c */
 rb_tree_t *rb_tree_insert(rb_tree_t **tree, int value);
+rb_tree_t *array_to_rb_tree(int *array, size_t size);
 
 /* 4-rb_tree_remove.c */
 rb_tree_t *rb_tree_remove(rb_tree_t *root, int n);
