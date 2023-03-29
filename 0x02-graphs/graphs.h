@@ -79,4 +79,4 @@ graph_t *graph_create(void);
 
 
 
-#endif // GRAPHS_H_
+#endif /* GRAPHS_H_*/
