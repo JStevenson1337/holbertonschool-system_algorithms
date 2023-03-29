@@ -77,6 +77,6 @@ typedef struct graph_s
 
 graph_t *graph_create(void);
 
-
+void graph_delete(graph_t *graph);
 
 #endif /* GRAPHS_H_*/
