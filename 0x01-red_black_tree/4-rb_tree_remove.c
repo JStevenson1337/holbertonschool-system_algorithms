@@ -33,7 +33,7 @@ rb_tree_t *rb_tree_delete(rb_tree_t *root, rb_tree_t *remove)
 {
 	rb_tree_t *x = NULL;
 	rb_tree_t *y = remove;
-	rb_color_t og_color = remove->color;
+	rb_color_t origional_color = remove->color;
 
 	if (remove->left == NULL)
 	{
@@ -49,7 +49,7 @@ rb_tree_t *rb_tree_delete(rb_tree_t *root, rb_tree_t *remove)
 	{
 		y = tree_min(remove->right);
 		if (y->color)
-			og_color = y->color;
+			origional_color = y->color;
 		x = y->right;
 		if (y->parent && y->parent == remove)
 			x->parent = y;
@@ -64,7 +64,7 @@ rb_tree_t *rb_tree_delete(rb_tree_t *root, rb_tree_t *remove)
 		y->left->parent = y;
 		y->color = remove->color;
 	}
-	if (og_color == BLACK)
+	if (origional_color == BLACK)
 		rb_delete_fixup(root, x);
 	return (root);
 }
