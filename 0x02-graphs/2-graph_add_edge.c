@@ -1,6 +1,6 @@
 #include "graphs.h"
 /**
- * edge_init -  allocates memory for a new edge, initializes its contents, and
+ * edge_init -  allocates memory for a edge edge, initializes its contents, and
  *              places edge where it belongs in the source vertex
  * @src: source vertex
  * @dest: destination vertex
@@ -8,24 +8,24 @@
  **/
 int edge_init(vertex_t *src, vertex_t *dest)
 {
-	edge_t *new, **p;
+	edge_t *edge, **edge_pointer;
 
 
 	if (dest == NULL || src == NULL)
 		return (0);
 
 	/* Check that this edge doesn't already exist */
-	for (p = &src->edges; *p; p = &(*p)->next)
-		if ((*p)->dest == dest)
+	for (edge_pointer = &src->edges; *edge_pointer; edge_pointer = &(*edge_pointer)->next)
+		if ((*edge_pointer)->dest == dest)
 			return (0);
 
-	new = malloc(sizeof(edge_t));
-	if (new == NULL)
+	edge = malloc(sizeof(edge_t));
+	if (edge == NULL)
 		return (0);
 
-	new->dest = dest;
-	new->next = NULL;
-	*p = new;
+	edge->dest = dest;
+	edge->next = NULL;
+	*edge_pointer = edge;
 
 	/* Keep track of edge count */
 	src->nb_edges += 1;
@@ -34,12 +34,12 @@ int edge_init(vertex_t *src, vertex_t *dest)
 }
 
 /**
- * get_vertex - searches for a vertex in a graph
+ * find_node - searches for a vertex in a graph
  * @graph: pointer to graph
  * @content: content of vertex
  * Return: pointer to vertex | NULL if not in list
  **/
-vertex_t *get_vertex(graph_t *graph, const char *content)
+vertex_t *find_node(graph_t *graph, const char *content)
 {
 	vertex_t *p;
 
@@ -64,24 +64,23 @@ vertex_t *get_vertex(graph_t *graph, const char *content)
 int graph_add_edge(
 	graph_t *graph, const char *src, const char *dest, edge_type_t type)
 {
-	vertex_t *src_vertex, *dest_vertex;
+	vertex_t *source, *destination;
 
 	if (!graph || !src || !dest || type > BIDIRECTIONAL)
 		return (0);
 
-	src_vertex = get_vertex(graph, src);
-	if (src_vertex == NULL)
+	source = find_node(graph, src);
+	if (source == NULL)
 		return (0);
 
-	dest_vertex = get_vertex(graph, dest);
-	if (dest_vertex == NULL)
+	destination = find_node(graph, dest);
+	if (destination == NULL)
 		return (0);
 
 	if (type == UNIDIRECTIONAL)
-		return (edge_init(src_vertex, dest_vertex));
+		return (edge_init(source, destination));
 
-	edge_init(src_vertex, dest_vertex);
-	edge_init(dest_vertex, src_vertex);
+	edge_init(source, destination);
+	edge_init(destination, source);
 	return (1);
 }
-Footer

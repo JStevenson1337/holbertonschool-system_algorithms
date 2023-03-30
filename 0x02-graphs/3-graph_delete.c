@@ -1,31 +1,31 @@
 #include "graphs.h"
 /**
- * graph_delete - deletes a graph object (frees all objects from heap)
+ * graph_delete - deletes and frees a graph object and its members
  * @graph: pointer to graph
  **/
 void graph_delete(graph_t *graph)
 {
-	vertex_t *v;
-	edge_t *e;
-	void *tmp;
+	vertex_t *vertex;
+	edge_t *edge;
+	void *temp;
 
 	if (graph == NULL)
 		return;
 
-	v = graph->vertices;
-	while (v)
+	vertex = graph->vertices;
+	while (vertex)
 	{
-		free(v->content);
-		e = v->edges;
-		while (e)
+		free(vertex->content);
+		edge = vertex->edges;
+		while (edge)
 		{
-			tmp = (void *)e;
-			e = e->next;
-			free(tmp);
+			temp = (void *)edge;
+			edge = edge->next;
+			free(temp);
 		}
-		tmp = (void *)v;
-		v = v->next;
-		free(tmp);
+		temp = (void *)vertex;
+		vertex = vertex->next;
+		free(temp);
 	}
 
 	free(graph);
