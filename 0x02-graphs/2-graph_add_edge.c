@@ -15,7 +15,8 @@ int edge_init(vertex_t *src, vertex_t *dest)
 		return (0);
 
 	/* Check that this edge doesn't already exist */
-	for (edge_pointer = &src->edges; *edge_pointer; edge_pointer = &(*edge_pointer)->next)
+	for (edge_pointer = &src->edges; *edge_pointer;
+	edge_pointer = &(*edge_pointer)->next)
 		if ((*edge_pointer)->dest == dest)
 			return (0);
 

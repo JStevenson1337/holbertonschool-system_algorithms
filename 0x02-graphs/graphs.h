@@ -35,6 +35,25 @@ typedef struct edge_s
     struct edge_s   *next;
 } edge_t;
 
+/**
+ * struct node_s - queue node
+ * @vertex: pointer to vertex
+ * @depth: depth of this vertex
+ * @next: pointer of next node in queue
+ */
+typedef struct node_s
+{
+	vertex_t *vertex;
+	size_t depth;
+	struct node_s *next;
+} node_t;
+
+/**
+ * struct queue_s - queue object
+ * @head: pointer to head queue
+ * @tail: pointer to tail queue
+ * @size: size of queue
+ */
 
 /**
  * struct vertex_s - Node in the linked list of vertices in the adjacency list
