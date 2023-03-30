@@ -1,15 +1,9 @@
 #ifndef GRAPHS_H_
 #define GRAPHS_H_
 
-
-
-#include <stdio.h>
 #include <stdlib.h>
-#include <stddef.h>
 #include <string.h>
-
-
-
+#include <stddef.h>
 
 
 /**

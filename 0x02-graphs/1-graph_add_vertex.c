@@ -40,6 +40,6 @@ vertex_t *graph_add_vertex(graph_t *graph, const char *str)
 			return (NULL);
 
 	*vertex = initialize_vertex(str, graph->nb_vertices);
-	graph->vertices = graph->vertices + graph->nb_vertices;
+	graph->nb_vertices += 1;
 	return (*vertex);
 }
