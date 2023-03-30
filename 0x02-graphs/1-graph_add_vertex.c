@@ -1,6 +1,6 @@
 #include "graphs.h"
 /**
- * vertex_init - allocates memory for a new vertex
+ * initialize_vertex - allocates memory for a new vertex
  * @str: contents of the vertex
  * @index: store index
  *
@@ -13,11 +13,11 @@ vertex_t *initialize_vertex(const char *str, size_t index)
 	if (!node)
 		return (NULL);
 
-	memcpy(&node->content, str, sizeof(*str));
+	node->content = strdup(str);
 	node->nb_edges = 0;
-	node->index = index;
 	node->edges = NULL;
 	node->next = NULL;
+	node->index = index;
 	return (node);
 }
 
