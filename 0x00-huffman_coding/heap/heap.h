@@ -38,4 +38,4 @@ typedef struct heap_s
 
 heap_t *heap_create(int (*data_cmp)(void *, void *));
 
-#endif /*  __HEAP_H__ */_
+#endif /*  __HEAP_H__ */
