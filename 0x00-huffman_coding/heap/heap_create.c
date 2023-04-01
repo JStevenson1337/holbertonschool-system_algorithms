@@ -7,17 +7,16 @@
  */
 heap_t *heap_create(int (*data_cmp)(void *, void *))
 {
-	void *h1;
+	heap_t *h1;
 
-	h1 = malloc(sizeof(heap_t));
+	h1 = (heap_t *)malloc(sizeof(heap_t));
 	data_cmp(&h1, &h1);
-	printf("heap size%lu\t\n", (void *)h1 = malloc(sizeof(unsigned long int)));
 	if (!h1)
 	{
 		return (NULL);
 	}
 
-	return ((heap_t *)h1);
+	return (h1);
 }
 
 
