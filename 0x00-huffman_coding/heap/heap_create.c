@@ -10,7 +10,7 @@ heap_t *heap_create(int (*data_cmp)(void *, void *))
 	heap_t *h1;
 
 	h1 = (heap_t *)malloc(sizeof(heap_t));
-	data_cmp(&h1, &h1);
+
 	if (!h1)
 	{
 		return (NULL);
@@ -19,5 +19,3 @@ heap_t *heap_create(int (*data_cmp)(void *, void *))
 	return (h1);
 	free(h1);
 }
-
-
