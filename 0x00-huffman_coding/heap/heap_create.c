@@ -22,5 +22,9 @@ heap_t *heap_create(int (*data_cmp)(void *, void *))
 		return (NULL);
 	}
 
+<<<<<<< HEAD
 	return ((heap_t *)h1);
+=======
+	return (h1);
+>>>>>>> parent of 7176948 (corrected memory leak)
 }
