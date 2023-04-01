@@ -8,12 +8,11 @@
 heap_t *heap_create(int (*data_cmp)(void *, void *))
 {
 
-	(void)data_cmp;
+	data_cmp = 0;
 
 	heap_t *heap;
 
-	heap = malloc(sizeof(heap_t));
-
+	heap = (heap_t)malloc(sizeof(heap_t);
 
 	if (heap == NULL)
 	{
