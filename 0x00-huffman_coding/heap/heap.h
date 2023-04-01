@@ -3,7 +3,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <string.h>
+
 
 /**
  * struct binary_tree_node_s - Binary tree node data structure
@@ -16,9 +16,9 @@
 typedef struct binary_tree_node_s
 {
     void *data;
+    struct binary_tree_node_s *left;
     struct binary_tree_node_s *right;
     struct binary_tree_node_s *parent;
-    struct binary_tree_node_s *left;
 } binary_tree_node_t;
 
 /**
