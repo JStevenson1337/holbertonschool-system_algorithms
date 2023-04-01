@@ -6,7 +6,7 @@
  * @data_cmp: pointer to a comparison function
  * Return: pointer to created heap or NULL
  */
-heap_t *heap_create(int __attribute_maybe_unused__(*data_cmp)(void *, void *))
+heap_t *heap_create(int __attribute_maybe_unused__ (*data_cmp)(void *, void *))
 {
 	void *h1;
 
