@@ -10,16 +10,21 @@ int my_print()
 {
 	heap_t *heap_entry;
 	binary_tree_node_t *node_entry;
-	void *member[]= {0};
 
-typedef stuct treversal_s
+typedef struct treversal_s
 {
 	member_t **mem;
 	treversal_s *next, *prev;
-	BIT1 =t 1
-	BIT2
+	BIT1 = 1;
+	BIT2;
 
-}
+}trav_t;
+
+typedef struct member_s
+{
+	void *member[] = {0};
+
+}member_t;
 
 	for (i = 0; )
 
