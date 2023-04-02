@@ -21,8 +21,8 @@ binary_tree_node_t *binary_tree_node(binary_tree_node_t *parent, void *data)
 	printf("node: %lu\n", (size_t)node);
 	printf("node->data: %lu\n", (unsigned long int)&node->data);
 
-	node = (binary_tree_node_t)malloc(sizeof(node))
-	node->left == node->right == node-parent == NULL;
+
+	
 	if (node)
 	{
 		node = parent;
@@ -31,7 +31,4 @@ binary_tree_node_t *binary_tree_node(binary_tree_node_t *parent, void *data)
 	}
 	else
 		return (NULL);
-
-
-
 }

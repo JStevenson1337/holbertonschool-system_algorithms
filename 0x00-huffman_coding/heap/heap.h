@@ -21,7 +21,7 @@ typedef struct binary_tree_node_s
 	struct binary_tree_node_s *parent;
 } binary_tree_node_t;
 
-/**
+/**	
  * struct heap_s - Heap data structure
  *
  * @size: Size of the heap (number of nodes)
