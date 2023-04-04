@@ -1,5 +1,5 @@
 #include "heap.h"
-/*
+/**
  * binary_tree_node -  creates a generic Binary Tree node
  *
  * @parent: pointer to the parent node of the node to be created
@@ -9,26 +9,14 @@
  */
 binary_tree_node_t *binary_tree_node(binary_tree_node_t *parent, void *data)
 {
-	const binary_tree_node_t *node;
+	binary_tree_node_t *node = malloc(sizeof(*node));
 
-	node = (binary_tree_node_t *)malloc(sizeof(*node));
-
-	if (!node && !data && !parent)
-	{
-		return (NULL);
-	}
-
-	printf("node: %lu\n", (size_t)node);
-	printf("node->data: %lu\n", (unsigned long int)&node->data);
-
-
-	
 	if (node)
 	{
-		node = parent;
-		node->data = parent->data;
-		return (node);
+		node->left = NULL;
+		node->right = NULL;
+		node->parent = parent;
+		node->data = data;
 	}
-	else
-		return (NULL);
+	return (node);
 }
