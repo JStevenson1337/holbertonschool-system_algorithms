@@ -9,7 +9,7 @@ heap_t *heap_create(int (*data_cmp)(void *, void *))
 {
 	heap_t *h = NULL;
 
-	h = malloc(sizeof(*h));
+	h = (heap_t *)malloc(sizeof(*h));
 	if (!h)
 		return (NULL);
 	h->root = NULL;
