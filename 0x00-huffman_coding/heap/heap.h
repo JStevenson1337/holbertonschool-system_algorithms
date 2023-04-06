@@ -47,6 +47,8 @@ void heap_delete(heap_t *heap, void (*free_data)(void *));
 void tree_delete(binary_tree_node_t *tree, void (*free_data)(void *));
 
 void *heap_extract(heap_t *heap);
-
+void heapify(binary_tree_node_t *node);
+void swap_data(binary_tree_node_t *node_1, binary_tree_node_t *node_2);
+binary_tree_node_t *heap_node(heap_t *heap, size_t index);
 
 #endif /*  __HEAP_H__ */
