@@ -20,7 +20,7 @@ typedef enum edge_type_e
 typedef struct vertex_s vertex_t;
 
 /**
- * struct edge_s - Node in the linked list of edges for a given vertex
+ * struct edge_s - Node in the linked list of edges for a given verte
  * A single vertex can have many edges (connections)
  *
  * @dest: Pointer to the connected vertex
