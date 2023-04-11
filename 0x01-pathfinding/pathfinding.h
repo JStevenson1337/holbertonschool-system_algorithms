@@ -18,4 +18,9 @@ typedef struct point_s
     int y;
 } point_t;
 
+queue_t *backtracking_array(char **map, int rows, int cols, point_t const 
+*start, point_t const *target);
+queue_node_t *queue_push_front(queue_t *queue, void *ptr);
+
+
 #endif /* __PATHFINDING_H__ */
