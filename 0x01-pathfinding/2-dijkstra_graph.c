@@ -31,6 +31,7 @@ queue_t *dijkstra_graph(graph_t *graph, vertex_t const *start,
 	int *distances = NULL;
 	int *prev = NULL;
 	int min_dist, cur_dist;
+	size_t i;
 
 	if (!graph || !start || !target)
 		return (NULL);
@@ -39,18 +40,18 @@ queue_t *dijkstra_graph(graph_t *graph, vertex_t const *start,
 	if (!q)
 		return (NULL);
 
-	distances = (int *)malloc(graph->nb_vertices * sizeof(*distances));
+	distances = malloc(graph->nb_vertices * sizeof(*distances));
 	if (!distances)
 		return (NULL);
 
-	prev = (int *)malloc(graph->nb_vertices * sizeof(*prev));
+	prev = malloc(graph->nb_vertices * sizeof(*prev));
 	if (!prev)
 	{
 		free(distances);
 		return (NULL);
 	}
 
-	for (size_t i = 0; i < graph->nb_vertices; i++)
+	for (i = 0; i < graph->nb_vertices; i++)
 	{
 		distances[i] = -1;
 		prev[i] = -1;
@@ -63,7 +64,7 @@ queue_t *dijkstra_graph(graph_t *graph, vertex_t const *start,
 		v = NULL;
 		min_dist = -1;
 
-		for (size_t i = 0; i < graph->nb_vertices; i++)
+		for (i = 0; i < graph->nb_vertices; i++)
 		{
 			if (distances[i] == -1)
 				continue;
