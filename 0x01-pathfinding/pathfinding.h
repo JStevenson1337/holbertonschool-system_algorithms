@@ -6,6 +6,7 @@
 #include <string.h>
 #include "graphs.h"
 #include "queues.h"
+#include "stdlib.h"
 /**
  * struct point_s - Structure storing coordinates
  *
@@ -18,9 +19,12 @@ typedef struct point_s
     int y;
 } point_t;
 
+
+/* Task 0 */
 queue_t *backtracking_array(char **map, int rows, int cols, point_t const 
 *start, point_t const *target);
 queue_node_t *queue_push_front(queue_t *queue, void *ptr);
-
+int explore_map(char **map, int rows, int cols, point_t *start,
+	point_t const *target, queue_t *q);
 
 #endif /* __PATHFINDING_H__ */

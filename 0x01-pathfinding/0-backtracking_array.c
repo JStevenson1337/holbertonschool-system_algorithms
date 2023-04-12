@@ -1,81 +1,127 @@
 #include "pathfinding.h"
 #include "queues.h"
+/* Define the direction to explore the map */
+static int direction[4][2] = {
+	{1, 0},	/* right */
+	{0, 1},	/* bottom */
+	{-1, 0},	/* left */
+	{0, -1}	/* top */
+};
 
-/* backtracking_array - finds the shortest path to a target node
+/**
+ * backtracking_array - Searches for the first path from a starting point
+ * to a target point within a two-dimensional array
  *
- * @map: map to treverse
- * @rows: rows of the map
- * @cols: columns of the map
- * @start: starting point
- * @target: target to reach
+ * @map: Pointer to a read-only two-dimensional array
+ * @rows: Number of rows of map
+ * @cols: Number of columns of map
+ * @start: Coordinates of the starting point
+ * @target: Coordinates of the target point
  *
- * Return - ponter to the array of the path
-*/
-queue_t *backtracking_array(char **map, int rows, int cols, point_t const *start, point_t const *target)
+ * Return: A pointer to a queue containing the coordinates of the path,
+ * or NULL if the path couldn't be found
+ */
+queue_t *backtracking_array(char **map, int rows, int cols,
+	point_t const *start, point_t const *target)
 {
-  	queue_t *queue = NULL;
-  	char **checked = NULL;
-	point_t const *p_pos;
-  	int y, x = 0;
-  	(void)map;
+	queue_t *q;
+	point_t *point;
+	int i;
 
-  	/* **map = rows * cols; */
+	/* Allocate queue and point */
+	q = queue_create();
+	if (!q)
+		return (NULL);
+	point = malloc(sizeof(*point));
+	if (!point)
+		return (NULL);
 
+	/* Set point to starting point */
+	point->x = start->x;
+	point->y = start->y;
 
-
-	/* ORDER: RIGHT->BOTTOM->LEFT->TOP */
-
-	if (!map || !rows || !cols || !start || !target)
+	/* Enqueue starting point */
+	if (!queue_push_back(q, point))
 	{
+		free(point);
+		queue_delete(q);
 		return (NULL);
 	}
 
- 	/* Create Map grid size of map */
- 	for (y = 0; y < rows; y++)
+	/* Mark starting point as visited */
+	map[point->x][point->y] = 1;
+
+	/* Recursive exploration of the map */
+	if (!explore_map(map, rows, cols, point, target, q))
 	{
-		for (x = 0; x < cols; x++)
-		{
-			/* alloctae memory for queue */
-
-			/* TODO: Wrap in if for queue */
-
-			memcpy(&(checked[y][x]), &(map[y][x]), ((cols * rows) * sizeof(char *)));
-			p_pos = (point_t const *) start;
-
-			/* TODO: Cretae queue */
-
-			/* TODO: Queue Coords with queue_push_front*/
-		}
+		for (i = 0; q->front; i++)
+			free(dequeue(q));
+		queue_delete(q);
+		q = NULL;
 	}
 
-	if (p_pos->x < 0 ||p_pos->y < 0 || p_pos->x >= cols || p_pos->y >= rows)
+	return (q);
+}
+
+/**
+ * explore_map - Recursively explores the map using backtracking
+ *
+ * @map: Pointer to a two-dimensional array
+ * @rows: Number of rows of map
+ * @cols: Number of columns of map
+ * @start: Coordinates of the starting point
+ * @target: Coordinates of the target point
+ * @q: Pointer to the queue
+ *
+ * Return: 1 on success, 0 on failure
+ */
+int explore_map(char **map, int rows, int cols, point_t *start,
+	point_t const *target, queue_t *q)
+{
+	point_t *point;
+	int i, x, y;
+
+	/* Check if target has been reached */
+	if (start->x == target->x && start->y == target->y)
+		return (1);
+
+	/* Explore neighbour cells */
+	for (i = 0; i < 4; i++)
 	{
-		return (NULL);
-	}
+		/* Calculate neighbour cell coordinates */
+		x = start->x + direction[i][0];
+		y = start->y + direction[i][1];
 
-	checked[p_pos->y][p_pos->x] = 1;
-
-	printf("Checking coordinates [%d, %d]\n", p_pos->y, p_pos->x);
-
-	for (y = 0; y < rows; y++)
+		/* Check if neighbour cell is valid and not visited */
+		if (x >= 0 && x < rows && y >= 0 && y < cols && map[x][y] == 0)
 		{
-			if (p_pos->y == target->y &&  p_pos->x == target->x)
+			/* Mark neighbour cell as visited */
+			map[x][y] = 1;
+
+			/* Allocate new cell and enqueue it */
+			point = malloc(sizeof(*point));
+			if (!point)
+				return (0);
+			point->x = x;
+			point->y = y;
+			if (!queue_push_back(q, point))
 			{
-				printf("target aquired at:\n\tTraveler: [%d, %d]\t\t Target:[%d, %d]\n", p_pos->y, p_pos->x, target->y, target->x);
-				break;
+				free(point);
+				return (0);
 			}
 
+			/* Print cell */
+			printf("[%d, %d]\n", x, y);
+
+			/* Recursive exploration of the map */
+			if (explore_map(map, rows, cols, point, target, q))
+				return (1);
+
+			/* Dequeue cell and free it on failure */
+			free(dequeue(q));
 		}
-
-
-
-
-
-
-	{
-	
 	}
-	queue = (queue_t *)queue_push_front((queue_t *)(*checked), (queue_t *)p_pos); 
 
-	return ((queue_t *)queue);
+	/* Failure */
+	return (0);
 }
