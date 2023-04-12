@@ -1,88 +1,119 @@
 #include "queues.h"
 #include "graphs.h"
 #include "pathfinding.h"
-
 /**
- * struct vertex_info_s - Information about a vertex to be stored in the queue
- * @vertex: Pointer to the actual vertex
- * @prev: Pointer to the previous vertex in the path
- * @distance: Distance from the start vertex
+ * print_visited_vertex - Prints a visited vertex
  *
- * This structure is used to store information about a vertex that should
- * be stored in the queue of vertices to be processed.
+ * @v: Pointer to the visited vertex
  */
-typedef struct vertex_info_s
+static void print_visited_vertex(vertex_t const *v)
 {
-	vertex_t		*vertex;
-	struct vertex_info_s	*prev;
-	int			distance;
-} vertex_info_t;
+	printf("Visited vertex: %s\n", v->content);
+}
 
 /**
- * dijkstra_graph - Searches for the shortest path between two vertices
- * @graph: Pointer to the graph to go through
- * @start: Pointer to the starting vertex
- * @target: Pointer to the target vertex
+ * dijkstra_graph - Searches for the shortest path from a starting point
+ *   to a target point in a graph
  *
- * Return: A pointer to the queue containing the shortest path,
- * or NULL on failure
+ * @graph: Pointer to the graph
+ * @start: Pointer to the starting point
+ * @target: Pointer to the target point
+ *
+ * Return: A pointer to the queue containing the shortest path from
+ *   start to target, NULL on failure
  */
 queue_t *dijkstra_graph(graph_t *graph, vertex_t const *start,
 	vertex_t const *target)
 {
-	int vertex_index;
-	queue_t *vertex_queue, *path_queue;
-	vertex_info_t *start_info, *target_info, *vertex_info;
-	edge_t *edge;
+	queue_t *q = NULL;
+	vertex_t *v = NULL;
+	edge_t *e = NULL;
+	int *distances = NULL;
+	int *prev = NULL;
+	int min_dist, cur_dist;
 
-	vertex_index = 0;
-	vertex_queue = queue_create();
-	path_queue = queue_create();
-	start_info = NULL;
-	target_info = NULL;
-	if (!graph || !start || !target || !vertex_queue || !path_queue)
+	if (!graph || !start || !target)
 		return (NULL);
-	start_info = (vertex_info_t *)malloc(sizeof(*start_info));
-	if (!start_info)
+
+	q = queue_create();
+	if (!q)
 		return (NULL);
-	start_info->vertex = (vertex_t *)start;
-	start_info->prev = NULL;
-	start_info->distance = 0;
-	if (queue_push_back(vertex_queue, start_info))
+
+	distances = (int *)malloc(graph->nb_vertices * sizeof(*distances));
+	if (!distances)
 		return (NULL);
-	while (vertex_queue->front)
+
+	prev = (int *)malloc(graph->nb_vertices * sizeof(*prev));
+	if (!prev)
 	{
-		vertex_info = (vertex_info_t *)dequeue(vertex_queue);
-		if (vertex_info->vertex == target)
+		free(distances);
+		return (NULL);
+	}
+
+	for (size_t i = 0; i < graph->nb_vertices; i++)
+	{
+		distances[i] = -1;
+		prev[i] = -1;
+	}
+
+	distances[start->index] = 0;
+
+	while (1)
+	{
+		v = NULL;
+		min_dist = -1;
+
+		for (size_t i = 0; i < graph->nb_vertices; i++)
 		{
-			target_info = vertex_info;
-			break;
-		}
-		for (edge = vertex_info->vertex->edges; edge; edge = edge->next)
-		{
-			if (edge->dest->index < vertex_info->vertex->index)
+			if (distances[i] == -1)
 				continue;
-			if ((edge->weight + vertex_info->distance) <
-				edge->dest->edges->dest->distance)
+			if (min_dist == -1 || distances[i] < min_dist)
 			{
-				edge->dest->edges->dest->distance =
-					edge->weight + vertex_info->distance;
-				edge->dest->edges->dest->prev =
-					vertex_info->vertex;
-				if (queue_push_back(vertex_queue,
-					    edge->dest->edges->dest))
-					return (NULL);
+				min_dist = distances[i];
+				v = graph->vertices + i;
 			}
 		}
-		free(vertex_info);
+		if (!v)
+			break;
+
+		queue_push_back(q, (void *)v);
+		print_visited_vertex(v);
+		if (v == target)
+			break;
+
+		distances[v->index] = -1;
+		e = v->edges;
+		while (e)
+		{
+			cur_dist = min_dist + e->weight;
+			if (distances[e->dest->index] == -1 ||
+				cur_dist < distances[e->dest->index])
+			{
+				distances[e->dest->index] = cur_dist;
+				prev[e->dest->index] = v->index;
+			}
+			e = e->next;
+		}
 	}
-	while (target_info)
+
+	free(distances);
+
+	if (prev[target->index] == -1)
 	{
-		printf("Vertex %d: %s\n", vertex_index, target_info->vertex->content);
-		if (queue_push_front(path_queue, target_info->vertex))
-			return (NULL);
-		target_info = target_info->prev;
-		vertex_index++;
+		free(prev);
+		queue_delete(q);
+		return (NULL);
 	}
-	return (path_queue);
+
+	v = graph->vertices + target->index;
+	while (v->index != start->index)
+	{
+		queue_push_front(q, (void *)v);
+		v = graph->vertices + prev[v->index];
+	}
+	queue_push_front(q, (void *)v);
+
+	free(prev);
+
+	return (q);
 }

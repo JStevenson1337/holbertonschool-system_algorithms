@@ -34,6 +34,7 @@ queue_t *backtracking_graph(graph_t *graph, vertex_t const *start,
 	vertex_t const *target);
 
 /* Task 2 */
+static void print_visited_vertex(vertex_t const *v);
 queue_t *dijkstra_graph(graph_t *graph, vertex_t const *start,
 	vertex_t const *target);
 
