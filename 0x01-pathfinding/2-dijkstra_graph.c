@@ -6,7 +6,7 @@
  *
  * @v: Pointer to the visited vertex
  */
-static void print_visited_vertex(vertex_t const *v)
+void print_visited_vertex(vertex_t const *v)
 {
 	printf("Visited vertex: %s\n", v->content);
 }
