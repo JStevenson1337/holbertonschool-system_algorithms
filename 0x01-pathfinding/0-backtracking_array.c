@@ -4,7 +4,7 @@
  * backtracking_array - Finds the shortest path from start to target in a
  * two-dimensional array.
  * The algorithm explores all adjacent cells starting from start, then exploring
- * right, bottom, left, top.
+ * left, top, right, bottom.
  *
  * @map: Two-dimensional array
  * @rows: Number of rows of map
@@ -49,20 +49,6 @@ queue_t *backtracking_array(char **map, int rows, int cols, point_t const *start
             continue;
         }
         map[point->y][point->x] = '1';
-        x = point->x + 1;
-        y = point->y;
-        point = malloc(sizeof(*point));
-        if (!point)
-            return (NULL);
-        point->x = x, point->y = y;
-        queue_push_back(q, point);
-        x = point->x;
-        y = point->y + 1;
-        point = malloc(sizeof(*point));
-        if (!point)
-            return (NULL);
-        point->x = x, point->y = y;
-        queue_push_back(q, point);
         x = point->x - 1;
         y = point->y;
         point = malloc(sizeof(*point));
@@ -77,7 +63,21 @@ queue_t *backtracking_array(char **map, int rows, int cols, point_t const *start
             return (NULL);
         point->x = x, point->y = y;
         queue_push_back(q, point);
-        x = point->x - 1;
+        x = point->x + 1;
+        y = point->y;
+        point = malloc(sizeof(*point));
+        if (!point)
+            return (NULL);
+        point->x = x, point->y = y;
+        queue_push_back(q, point);
+        x = point->x;
+        y = point->y + 1;
+        point = malloc(sizeof(*point));
+        if (!point)
+            return (NULL);
+        point->x = x, point->y = y;
+        queue_push_back(q, point);
+        x = point->x + 1;
         y = point->y;
         point = malloc(sizeof(*point));
         if (!point)
