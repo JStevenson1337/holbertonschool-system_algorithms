@@ -1,4 +1,3 @@
-please fix this
 #include "pathfinding.h"
 #include <string.h>
 #include <stdlib.h>
