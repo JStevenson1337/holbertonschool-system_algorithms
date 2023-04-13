@@ -2,26 +2,17 @@
 #include "graphs.h"
 #include "pathfinding.h"
 /**
- * print_visited_vertex - Prints a visited vertex
- *
- * @v: Pointer to the visited vertex
+* dijkstra_graph - Searches for the shortest path from a starting point
+*   to a target point in a graph
+*
+* @graph: Pointer to the graph
+* @start: Pointer to the starting point
+* @target: Pointer to the target point
+*
+* Return: A pointer to the queue containing the shortest path from
+*   start to target, NULL on failure.
  */
-void print_visited_vertex(vertex_t const *v)
-{
-	printf("Visited vertex: %s\n", v->content);
-}
 
-/**
- * dijkstra_graph - Searches for the shortest path from a starting point
- *   to a target point in a graph
- *
- * @graph: Pointer to the graph
- * @start: Pointer to the starting point
- * @target: Pointer to the target point
- *
- * Return: A pointer to the queue containing the shortest path from
- *   start to target, NULL on failure
- */
 queue_t *dijkstra_graph(graph_t *graph, vertex_t const *start,
 	vertex_t const *target)
 {
@@ -64,13 +55,13 @@ queue_t *dijkstra_graph(graph_t *graph, vertex_t const *start,
 		v = NULL;
 		min_dist = -1;
 
-		for (i = 0; i < graph->nb_vertices; i++)
+			for (i = 0; i < graph->nb_vertices; i++)
 		{
 			if (distances[i] == -1)
 				continue;
 			if (min_dist == -1 || distances[i] < min_dist)
 			{
-				min_dist = distances[i];
+			min_dist = distances[i];
 				v = graph->vertices + i;
 			}
 		}
@@ -88,8 +79,8 @@ queue_t *dijkstra_graph(graph_t *graph, vertex_t const *start,
 		{
 			cur_dist = min_dist + e->weight;
 			if (distances[e->dest->index] == -1 ||
-				cur_dist < distances[e->dest->index])
-			{
+			cur_dist < distances[e->dest->index])
+		{
 				distances[e->dest->index] = cur_dist;
 				prev[e->dest->index] = v->index;
 			}
@@ -102,19 +93,19 @@ queue_t *dijkstra_graph(graph_t *graph, vertex_t const *start,
 	if (prev[target->index] == -1)
 	{
 		free(prev);
-		queue_delete(q);
+	queue_delete(q);
 		return (NULL);
 	}
 
 	v = graph->vertices + target->index;
 	while (v->index != start->index)
 	{
-		queue_push_front(q, (void *)v);
+
+	queue_push_front(q, (void *)v);
 		v = graph->vertices + prev[v->index];
-	}
+}
 	queue_push_front(q, (void *)v);
 
 	free(prev);
 
-	return (q);
-}
+	return (q);}

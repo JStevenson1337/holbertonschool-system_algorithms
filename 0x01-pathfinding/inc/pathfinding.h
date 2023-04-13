@@ -59,6 +59,6 @@ queue_t *dijkstra_graph(graph_t *graph, vertex_t const *start,
 			vertex_t const *target);
 queue_t *a_star_graph(graph_t *graph, vertex_t const *start,
 			vertex_t const *target);
-
+void print_visited_vertex(vertex_t const *v);
 
 #endif /* __PATHFINDING_H__ */

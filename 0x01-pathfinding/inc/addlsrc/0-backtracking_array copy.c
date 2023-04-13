@@ -1,4 +1,4 @@
-#include "pathfinding.h"
+#include "inc/pathfinding.h"
 
 /* backtracking_array - finds the shortest path to a target node
  *

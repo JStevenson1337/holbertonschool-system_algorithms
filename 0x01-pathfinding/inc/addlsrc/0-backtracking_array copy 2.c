@@ -1,5 +1,5 @@
-#include "pathfinding.h"
-#include "queues.h"
+#include "inc/pathfinding.h"
+#include "inc/queues.h"
 /* Define the direction to explore the map */
 static int direction[4][2] = {
 	{1, 0},	/* right */
