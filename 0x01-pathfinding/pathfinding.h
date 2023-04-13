@@ -25,9 +25,7 @@ typedef struct point_s
 /* Task 0 */
 queue_t *backtracking_array(char **map, int rows, int cols, point_t const 
 *start, point_t const *target);
-queue_node_t *queue_push_front(queue_t *queue, void *ptr);
-int explore_map(char **map, int rows, int cols, point_t *start,
-	point_t const *target, queue_t *q);
+
 
 /* Task 1 */
 queue_t *backtracking_graph(graph_t *graph, vertex_t const *start,
