@@ -52,12 +52,13 @@ typedef struct a_star_node_s
 } a_star_node_t;
 
 queue_t *backtracking_array(char **map, int rows, int cols,
-			point_t const *start, point_t const *target);
+	point_t const *start, point_t const *target);
+int backtrack(char **map, int rows, int cols, point_t const *target,
+	int x, int y, queue_t *path);
 queue_t *backtracking_graph(graph_t *graph, vertex_t const *start,
-			vertex_t const *target);
+	vertex_t const *target);
+int dfs(vertex_t const *vertex);
 queue_t *dijkstra_graph(graph_t *graph, vertex_t const *start,
-			vertex_t const *target);
-queue_t *a_star_graph(graph_t *graph, vertex_t const *start,
 			vertex_t const *target);
 void print_visited_vertex(vertex_t const *v);
 
