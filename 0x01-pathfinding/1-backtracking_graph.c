@@ -1,90 +1,71 @@
-#include "inc/pathfinding.h"
-#include <string.h>
-#include <stdlib.h>
-#include <stdio.h>
+#include "pathfinding.h"
 
-static queue_t *backtrack(graph_t *graph, char *seen, vertex_t const *curr,
-			vertex_t const *target, queue_t *path);
-static queue_t *add_city(char *city, queue_t *queue);
+static char *g_visited;
+static queue_t *g_path;
+static vertex_t const *g_target;
+static graph_t *g_graph;
 
 /**
- * backtracking_graph - searches for the first path from a starting point to a
- *                      target point in a graph.
- * @graph: pointer to the graph to go through
- * @start: pointer to the starting vertex
- * @target:pointer to the target vertex
- * Return: queue of strings corresponding to a vertex, forming a path from
- *         start to target
+ * backtracking_graph - uses backtracking to find path through graph
+ * @graph: pointer to graph struct
+ * @start: pointer to starting vertex
+ * @target: pointer to target vertex
+ * Return: queue of vertices forming path
  */
 queue_t *backtracking_graph(graph_t *graph, vertex_t const *start,
-			vertex_t const *target)
+	vertex_t const *target)
 {
-	queue_t *path = NULL;
-	char *seen = NULL;
+	queue_t *reverse_path = NULL;
 
-	if
-	(
-		!graph || !start || !target || !(path = queue_create()) ||
-		!(seen = calloc(graph->nb_vertices, sizeof(char))) ||
-		!backtrack(graph, seen, start, target, path)
-	)
-	{
-		queue_delete(path);
-		free(seen);
+	if (!graph || !start || !target)
 		return (NULL);
-	}
 
-	free(seen);
-	return (add_city(strdup(start->content), path));
+	setbuf(stdout, NULL);
+	g_visited = calloc(graph->nb_vertices, sizeof(*g_visited));
+	g_path = queue_create();
+	if (!g_visited || !g_path)
+		exit(1);
+	g_target = target;
+	g_graph = graph;
+	if (dfs(start))
+	{
+		char *city;
+
+		reverse_path = queue_create();
+		if (!reverse_path)
+			exit(1);
+		for (city = dequeue(g_path); city; city = dequeue(g_path))
+			if (!queue_push_front(reverse_path, city))
+				exit(1);
+	}
+	queue_delete(g_path);
+	free(g_visited);
+	return (reverse_path);
 }
 
 /**
- * backtrack - helper backtracking algorithm
- *
- * @graph: pointer to graph
- * @seen: pointer to array that keeps track of seen cells
- * @curr: current position in graph
- * @target: target position
- * @path: pointer to queue where final path will be stored.
- * Return: pointer to path
+ * dfs - uses DFS backtracking to find path
+ * @vertex: current vertex to traverse
+ * Return: 1 if destination found else 0
  */
-static queue_t *backtrack(graph_t *graph, char *seen, vertex_t const *curr,
-			vertex_t const *target, queue_t *path)
+int dfs(vertex_t const *vertex)
 {
+	char *city;
 	edge_t *edge;
 
-	if (!curr || seen[curr->index])
-		return (NULL);
-
-	seen[curr->index] = 1;
-
-	printf("Checking %s\n", (char *)curr->content);
-
-	if (curr == target)
-		return (path);
-
-
-	for (edge = curr->edges; edge; edge = edge->next)
-		if (backtrack(graph, seen, edge->dest, target, path))
-			return (add_city(strdup(edge->dest->content), path));
-
-	return (NULL);
-}
-
-/**
- * add_city - adds a city to a queue
- *
- * @city: city name (string)
- * @queue: queue to place city in
- * Return: pointer to queue or NULL if city is NULL
- */
-static queue_t *add_city(char *city, queue_t *queue)
-{
+	if (g_visited[vertex->index])
+		return (0);
+	printf("Checking %s\n", vertex->content);
+	g_visited[vertex->index] = 1;
+	city = strdup(vertex->content);
 	if (!city)
-	{
-		queue_delete(queue);
-		return (NULL);
-	}
-	queue_push_front(queue, city);
-	return (queue);
+		exit(1);
+	queue_push_front(g_path, city);
+	if (vertex == g_target)
+		return (1);
+	for (edge = vertex->edges; edge; edge = edge->next)
+		if (dfs(edge->dest))
+			return (1);
+	free(dequeue(g_path));
+	return (0);
 }

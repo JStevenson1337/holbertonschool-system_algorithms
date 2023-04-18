@@ -1,0 +1,97 @@
+#include "heap.h"
+#include <stdlib.h>
+#include <stdio.h>
+
+/**
+ * heap_insert - inserts a new value into a min binary heap
+ * @heap: pointer to min heap
+ * @data: pointer to new data to add to heap
+ * Return: pointer to new node
+ **/
+binary_tree_node_t *heap_insert(heap_t *heap, void *data)
+{
+	binary_tree_node_t *current_node, *new_node = (NULL, data);
+	size_t tmp, moves;
+
+
+	heap->size++;
+	if (heap->root != NULL)
+	{
+		printf("1");
+		/* moves = floor(log2(head->size)) - 1; but i can't use math.h >:( */
+		for (tmp = 4, moves = 0; heap->size >= tmp; tmp *= 2)
+			moves += 1;
+
+		for (current_node = heap->root; moves; moves--)
+			if (heap->size & (1 << moves))
+				current_node = current_node->right;
+			else
+				current_node = current_node->left;
+
+		if (heap->size & 1)
+			current_node->right = new_node;
+		else
+			current_node->left = new_node;
+
+		new_node->parent = current_node;
+
+		while (new_node->parent)
+			if (heap->data_cmp(new_node->data, new_node->parent->data) < 0)
+				swap_node_with_parent(new_node);
+			else
+				break;
+	}
+
+	if (new_node->parent == NULL)
+		heap->root = new_node;
+
+	return (new_node);
+}
+
+/**
+ * swap_node_with_parent - swaps position of a node with its parent in a tree
+ * @node: binary tree node
+ **/
+void swap_node_with_parent(binary_tree_node_t *node)
+{
+	binary_tree_node_t *tmp, *parent;
+
+	if (node == NULL || node->parent == NULL)
+		return;
+
+	parent = node->parent;
+
+	if (parent->parent && parent->parent->right == parent)
+		parent->parent->right = node;
+	else if (parent->parent)
+		parent->parent->left = node;
+
+	node->parent = parent->parent;
+	parent->parent = node;
+
+	if (node->left)
+		node->left->parent = parent;
+	if (node->right)
+		node->right->parent = parent;
+
+	if (parent->right == node)
+	{
+		if (parent->left)
+			parent->left->parent = node;
+		parent->right = node->right;
+		node->right = parent;
+		tmp = parent->left;
+		parent->left = node->left;
+		node->left = tmp;
+	}
+	else
+	{
+		if (parent->right)
+			parent->right->parent = node;
+		parent->left = node->left;
+		node->left = parent;
+		tmp = parent->right;
+		parent->right = node->right;
+		node->right = tmp;
+	}
+}

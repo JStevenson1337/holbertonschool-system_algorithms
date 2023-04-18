@@ -1,0 +1,56 @@
+#include "heap.h"
+/**
+ * heap_insert - inserts a value in a Min Binary Heap
+ *
+ * @heap: pointer to the heap
+ * @data: point containing the data to store  in the new node
+ *
+ * Return: pointer to the created node or NULL on fail
+ */
+binary_tree_node_t *heap_insert(heap_t *heap, void *data)
+{
+	binary_tree_node_t *new_node = NULL, *current_node = NULL;
+	
+
+
+	if (!heap || !data || !heap->root)
+		return (NULL);
+
+	if (new_node == NULL)
+		return (NULL);
+
+	heap->size++;
+	
+	new_node = heap->size - 1;
+
+
+
+	printf("new =%p \n", (void *)new_node->data);
+
+
+
+
+	return (0);
+}
+
+int parent(int node)
+{
+	return ((node - 1) / 2);
+}
+
+int left_child(int node)
+{
+	return (2 * node +1);
+}
+
+int right_child(int node)
+{
+	return (2 * node + 2);
+}
+
+void swap(int *x, int *y)
+{
+	int temp = *x;
+	*x = *y;
+	*y = temp;
+}
