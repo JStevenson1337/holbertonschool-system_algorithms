@@ -7,13 +7,19 @@
  *
  * Return - pointer to the new node or NULL if fail
  */
-nary_tree_t *nary_tree_insert(nary_tree_t *parent, char const *str)
+nary_tree_t *nary_tree_insert(nary_tree_t *parent, char const *_str)
 {
-	if (parent == NULL || str == NULL || strlen(str) == 0)
-	{
-		return (NULL);
-	}
-	
-	
+	nary_tree_t *new = calloc(1, sizeof(*new));
+	char *str = strdup(_str);
 
+	if (!new || !str)
+		return (free(new), free(str), NULL);
+
+	new->content = str;
+	if (!parent)
+		return (new);
+	new->next = parent->children;
+	parent->children = new;
+	parent->nb_children++;
+	return (new);
 }
