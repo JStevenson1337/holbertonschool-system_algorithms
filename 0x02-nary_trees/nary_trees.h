@@ -6,6 +6,8 @@
 #include <stdlib.h>
 #include <stdarg.h>
 
+#define MAX(x, y) ((x) > (y) ? (x) : (y))
+
 /**
  * struct nary_tree_s - N-ary tree node structure
  *
@@ -26,20 +28,18 @@ typedef struct nary_tree_s
 
 
 
-/* Task 0 */
-nary_tree_t *nary_tree_insert(nary_tree_t *parent, char const *str);
-
-/* Task 1 */
+nary_tree_t *nary_tree_insert(nary_tree_t *parent, char const *_str);
 void nary_tree_delete(nary_tree_t *tree);
 
-/* Task 2 */
-size_t nary_tree_traverse(nary_tree_t const *root, void (*action)(nary_tree_t
-const *node, size_t depth));
+size_t nary_tree_traverse(nary_tree_t const *root,
+	void (*action)(nary_tree_t const *node, size_t depth));
+size_t _nary_tree_traverse(nary_tree_t const *root,
+	void (*action)(nary_tree_t const *node, size_t depth), size_t depth);
 
-/* Task 3 */
 size_t nary_tree_diameter(nary_tree_t const *root);
+size_t max_heights(nary_tree_t const *root);
 
-/* Task 4 */
 int path_exists(nary_tree_t const *root, char const * const *path);
+int _path_exists(nary_tree_t const *root, char const * const *path);
 
 #endif /* __NARY_TREES_H__ */
